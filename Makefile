@@ -26,6 +26,7 @@ SRCDIR   = src
 OBJDIR   = obj
 BINDIR   = bin
 INCDIR	 = inc
+LIBDIR   = lib
 
 # ---------------------
 # Compiler variables
@@ -35,9 +36,10 @@ CC       = g++
 # Change the version
 CCVERSION = -std=c++17
 # compiling flags here
-CFLAGS   =	-Wall\
+CXXFLAGSS   =	-Wall\
    			-g\
 			-I$(INCDIR)/ \
+			-I$(LIBDIR)/ \
 			-DDEBUG_TOOL \
 			-DTEST_MODE
 
@@ -49,21 +51,24 @@ LFLAGS   = -Wall\
 # ---------------------
 
 # add needed libraries
-LIBRARIES := 
+SOURCES  := $(wildcard $(SRCDIR)/*.cpp)\
+			$(wildcard $(LIBDIR)/*.cpp)
 
-SOURCES  := $(wildcard $(SRCDIR)/*.cpp)
+VPATH := $(dir $(SOURCES))
+
 INCLUDES := $(wildcard $(SRCDIR)/*.h)
-OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+OBJECTS := $(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(SOURCES)))
 rm       = rm -f
+
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
 	@echo "$(CC) -o $@ $(OBJECTS) $(LFLAGS) $(LIBRARIES)"
 	@$(CC) -o $@ $(OBJECTS) $(LIBRARIES)
 	@echo -e "\nBuild Success"
 
-$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-	@$(CC) $(CCVERSION) $(CFLAGS) -c -o $@ $<
-	@echo "generating... $@  $<"
+$(OBJDIR)/%.o : %.cpp 
+	@echo creating $@ ...
+	@$(CC) $(CCVERSION) $(CXXFLAGSS) -c -o $@ $<
 
 # add 1 argument to unit at make execution
 # make unittest unit=src/logic.cpp
@@ -77,13 +82,13 @@ unittest:
 	$(eval TESTVAROBJ=$(subst cpp,o,$(TESTVAROBJ)))
 
 
-	@if $(CC) $(CCVERSION) $(CFLAGS) -c -o $(OBJVAR) $(unit); then \
+	@if $(CC) $(CCVERSION) $(CXXFLAGSS) -c -o $(OBJVAR) $(unit); then \
 		echo generating $(OBJVAR) completed; \
 	   	else \
 		echo File does not exist; exit 1;\
    	fi
 
-	@if $(CC) $(CCVERSION) $(CFLAGS) -I$(SRCDIR)/ -c -o $(TESTVAROBJ) $(TESTVAR); then \
+	@if $(CC) $(CCVERSION) $(CXXFLAGSS) -I$(SRCDIR)/ -c -o $(TESTVAROBJ) $(TESTVAR); then \
 		echo generating $(TESTVAROBJ) completed;\
 		else \
 	   	echo [ERROR] create a unit test file.; exit 1;\
