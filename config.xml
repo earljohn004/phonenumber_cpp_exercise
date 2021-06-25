@@ -1,6 +1,8 @@
 <config>
 	<delimeter_setting>,</delimeter_setting>
+
 	<input_setting>
+		<!-- Priority of input is based on included format -->
 		<included>
 			<TimeStamp/>
 			<DateSentTimeStamp/>
@@ -8,8 +10,11 @@
 			<SenderPhoneNumber/>
 			<RecepientPhoneNumber/>
 		</included>
+
+		<!-- To exclude certain fields, Put it inside <excluded> tag  -->
 		<excluded>
 		</excluded>
+
 	</input_setting>
 
 	<output_setting>
