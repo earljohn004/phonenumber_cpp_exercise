@@ -1,12 +1,17 @@
 <config>
 	<delimeter_setting>,</delimeter_setting>
 	<input_setting>
-		<TimeStamp>1</TimeStamp>
-		<DateSentTimeStamp>2</DateSentTimeStamp>
-		<DateReceivedTimeStamp>3</DateReceivedTimeStamp>
-		<SenderPhoneNumber>4</SenderPhoneNumber>
-		<RecepientPhoneNumber>5</RecepientPhoneNumber>
+		<included>
+			<TimeStamp/>
+			<DateSentTimeStamp/>
+			<DateReceivedTimeStamp/>
+			<SenderPhoneNumber/>
+			<RecepientPhoneNumber/>
+		</included>
+		<excluded>
+		</excluded>
 	</input_setting>
+
 	<output_setting>
 		<PhoneNumber>1</PhoneNumber>
 		<TotalSent>2</TotalSent>

@@ -8,11 +8,9 @@ void prog_settings::open_config(){
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file("config.xml");
 
-	pugi::xpath_node_set tools = doc.select_nodes("/config/input_setting");
-	for(pugi::xpath_node node: tools){
-		pugi::xml_node toool = node.node();
-		std::cout << "attribute: " << toool.attribute("TimeStamp").value();
+	auto included = doc.child("config").child("input_setting").child("included").first_child();
+	for( included.first_child(); included ; included = included.next_sibling()){
+		std::cout << included.name() << std::endl;
 	}
 
-	
 }
