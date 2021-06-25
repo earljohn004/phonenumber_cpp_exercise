@@ -12,14 +12,7 @@
 #ifndef TEST_MODE
 int main(){
 
-	std::unique_ptr<Model> m = std::make_unique<Model>("Earl", "Abaquita");
-	std::unique_ptr<Logic> logic = std::make_unique<Logic>();
-	auto i = 5;
-
-	VAR_LOG( i );
-	VAR_LOG( m->get_first_name() );
 	MESSAGE_LOG("Hello");
-
 	return 0;
 }
 #endif
