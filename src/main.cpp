@@ -1,5 +1,5 @@
-#include "logic.h"
 #include "common_debug.h"
+#include "worker.h"
 
 #ifdef TEST_MODE
 #include "unit_test_framework.h"
@@ -8,11 +8,14 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <fstream>
+#include <sstream>
 
 #ifndef TEST_MODE
 int main(){
+	std::unique_ptr<worker> work = std::make_unique<worker>();
+	work->start_thread();
 
-	MESSAGE_LOG("Hello");
 	return 0;
 }
 #endif

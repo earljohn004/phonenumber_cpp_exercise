@@ -17,12 +17,19 @@
 
 	</input_setting>
 
+	<!-- Priority of output is based on included format -->
 	<output_setting>
-		<PhoneNumber>1</PhoneNumber>
-		<TotalSent>2</TotalSent>
-		<TotalReceived>3</TotalReceived>
-		<DayHighestSent>4</DayHighestSent>
-		<NumberHighestSent>5</NumberHighestSent>
-		<DayHighestDifference>6</DayHighestDifference>
+		<included>
+			<PhoneNumber/>
+			<TotalSent/>
+			<TotalReceived/>
+			<DayHighestSent/>
+			<NumberHighestSent/>
+			<DayHighestDifference/>
+		</included>
+
+		<!-- To exclude certain fields, Put it inside <excluded> tag  -->
+		<excluded>
+		</excluded>
 	</output_setting>
 </config>

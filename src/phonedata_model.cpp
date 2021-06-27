@@ -1,4 +1,5 @@
 #include "phonedata_model.h"
+#include "common_debug.h"
 
 int phonedata_model::get_total_receive( const std::string  phonenumber ) {
 	return total_receive_[phonenumber];
@@ -9,72 +10,122 @@ int phonedata_model::get_total_send( const std::string  phonenumber ) {
 }
 
 void phonedata_model::increment_phonenumber_receive( const std::string phonenumber ){
-	++total_receive_[phonenumber];
+	increment_receive(phonenumber);
 }
 
 void phonedata_model::increment_phonenumber_send( const std::string phonenumber ){
+	increment_send(phonenumber);
+}
+
+void phonedata_model::increment_receive(const std::string phonenumber){
+	++total_receive_[phonenumber];
+}
+
+void phonedata_model::increment_send(const std::string phonenumber){
 	++total_send_[phonenumber];
 }
 
-void phonedata_model::add_date_information( const std::string phonenumber, const std::string date){
+std::tuple<std::string, int, std::string> phonedata_model::get_phone_max_date( const std::string phonenumber ){
+	auto get_queue = &date_information_q_[phonenumber];
 
-	if( !date_information_.empty() ){
-		auto get_stack = date_information_[phonenumber];
+	auto info_front = get_queue->front();
+	auto info_back = get_queue->back();
 
-		if( get_stack.top() == date ){
-			++total_send_of_date_[phonenumber];
-		}else {
-			total_send_of_date_[phonenumber] = 1;
+	auto map_element_front_date = info_front.date_count.begin()->first;
+	auto map_element_back_date = info_back.date_count.begin()->first;
 
-			std::stack<std::string> temp;
-			temp.push(date);
-			date_information_[phonenumber] = std::move(temp);
-		}
+	auto map_element_front_count = info_front.date_count.begin()->second;
+	auto map_element_back_count = info_back.date_count.begin()->second;
+
+
+	if( map_element_front_count > map_element_back_count ){
+		auto get_vector = info_front.phone_number_list;
+		return std::make_tuple( map_element_front_date, map_element_front_count, list_largest_element( get_vector ) ); 
 
 	}else{
-
-		//if top of stack is same with date, increment the count of date
-		total_send_of_date_[phonenumber] = 1;
-
-		std::stack<std::string> temp;
-		temp.push(date);
-		date_information_[phonenumber] = std::move(temp);
+		auto get_vector = info_back.phone_number_list;
+		return std::make_tuple( map_element_back_date, map_element_back_count, list_largest_element( get_vector ) ); 
 	}
 
 }
 
-std::tuple<std::string, std::string, int> phonedata_model::get_phone_max_date( const std::string phonenumber ){
-
-	auto get_stack = date_information_[phonenumber];
-	auto total = total_send_of_date_[phonenumber];
-
-	return std::make_tuple( phonenumber, get_stack.top(), total ); 
+void phonedata_model::get_largest_element( const std::vector<std::string> list, std::string &output ){
+	output = list_largest_element( list );
 }
 
-void phonedata_model::add_date_information_q( const std::string phonenumber, const std::string date, const std::string recepient){
+std::string phonedata_model::list_largest_element( const std::vector<std::string> list ){
 
-#if 0
+	std::vector<std::string> copyvector;
+	std::copy( list.begin(), list.end(), std::back_inserter(copyvector) );
+	int occurences_of_element = 0;
+	std::string largest_element {};
+
+	//Sort copy vector
+	std::sort( copyvector.begin(), copyvector.end());
+
+	//Find the unique elements inside the vector
+	auto it = std::unique(copyvector.begin(), copyvector.end());
+	copyvector.resize( std::distance( copyvector.begin(), it ));
+
+	//Compare unique elements and check occurence in original vector
+	std::for_each(copyvector.begin(), copyvector.end(), [&occurences_of_element, &largest_element, &list](auto item){
+		auto count = std::count( list.begin(), list.end(), item );
+		
+		//Update occurence count and largest element when count is greater than listed element
+		if( count > occurences_of_element ){
+			occurences_of_element = count;
+			largest_element = item;
+		}else { /* Do nothing */ }
+	});
+
+	return largest_element;
+}	
+
+void phonedata_model::add_date_information( const std::string phonenumber, const std::string date, const std::string recepient){
+
+	//Increment send phonenumber count
+	increment_send(phonenumber);
+
 	if( !date_information_q_.empty() ){
-		auto get_queue = date_information_q_[phonenumber];
+		auto get_queue = &date_information_q_[phonenumber];
+		auto get_info = &get_queue->front();
 
-		if( get_queue.front() == date ){
-			++total_send_of_date_[phonenumber];
-		}else {
-			get_queue.push_front(date);
+		//Count if date exist in current map
+		if( get_info->date_count.count(date)  > 0 ){
+			++get_info->date_count[ date ];
+			get_info->phone_number_list.push_back(recepient);
+		}else{
+
+			//Check if there are already 2 elements in queue
+			//Delete the queue with the lowest number of dates
+			auto map_size = date_information_q_[phonenumber].size();
+			if(  map_size >= 2 ){
+				MESSAGE_LOG("Delete elements with the lowest count of date");
+				//Traverse map and compare
+				auto info_front = get_queue->front();
+				auto info_back = get_queue->back();
+
+				auto map_element_front_count = info_front.date_count.begin()->second;
+				auto map_element_back_count = info_back.date_count.begin()->second;
+
+				// Delete front
+				if( map_element_front_count < map_element_back_count ){
+					get_queue->pop_front();
+				}else{
+					//Delete back
+					get_queue->pop_back();
+				}
+			}else { /*Do nothing */}
+
+			// Insert the new element
+			{
+				date_information info {};
+				++info.date_count[date];
+				info.phone_number_list.push_back(recepient);
+
+				date_information_q_[phonenumber].push_front(info);
+			}
 		}
-
-	}else{
-
-		//if top of deque is same with date, increment the count of date
-		total_send_of_date_[phonenumber] = 1;
-
-		std::deque<std::string> temp;
-		temp.push_back(date);
-		date_information_q_[phonenumber] = std::move(temp);
-	}
-#endif
-
-	if( !date_information_q_.empty() ){
 
 	}else{
 		date_information info {};
@@ -84,6 +135,7 @@ void phonedata_model::add_date_information_q( const std::string phonenumber, con
 		date_information_q_[phonenumber].push_front(info);
 	}
 
+	MESSAGE_LOG("DEBUG_HERE");
 }
 
 

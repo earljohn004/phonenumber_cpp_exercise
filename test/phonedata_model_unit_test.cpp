@@ -211,46 +211,97 @@ TEST( phonenumber_multiple_receive_increase ){
 	ASSERT_EQUAL(0, total);
 }
 
-TEST( phonenumber_date_send_count_test ){
-	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
-	std::string phonenumber {"12345678900"};
-	std::string date {"06-04-1993"};
-
-	phonedata->increment_phonenumber_send( phonenumber );
-	phonedata->add_date_information( phonenumber, "06-04-1993" );
-	phonedata->increment_phonenumber_send( phonenumber );
-	phonedata->add_date_information( phonenumber, "06-04-1993" );
-	phonedata->increment_phonenumber_send( phonenumber );
-	phonedata->add_date_information( phonenumber, "06-04-1993" );
-
-	ASSERT_EQUAL( 3 , phonedata->get_total_send(phonenumber));
-
-	auto [getnumber, getdate, gettotal] = phonedata->get_phone_max_date(phonenumber);
-
-	ASSERT_EQUAL(phonenumber, getnumber);
-	ASSERT_EQUAL(getdate, "06-04-1993");
-	ASSERT_EQUAL(gettotal, 3);
-}
-
 TEST( phonenumber_date_send_countqueue_test ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 	std::string phonenumber {"12345678900"};
-	std::string date {"06-04-1993"};
 
-	phonedata->increment_phonenumber_send( phonenumber );
-	phonedata->add_date_information_q( phonenumber, "06-04-1993", "0987654321" );
-	phonedata->increment_phonenumber_send( phonenumber );
-	phonedata->add_date_information_q( phonenumber, "06-04-1993", "0987654321" );
-	phonedata->increment_phonenumber_send( phonenumber );
-	phonedata->add_date_information_q( phonenumber, "06-04-1993", "0987654321" );
+	phonedata->add_date_information( phonenumber, "06-04-1993", "3830656" );
+	phonedata->add_date_information( phonenumber, "06-04-1993", "3830656" );
+	phonedata->add_date_information( phonenumber, "06-04-1993", "3844724" );
 
-	ASSERT_EQUAL( 3 , phonedata->get_total_send(phonenumber));
+	phonedata->add_date_information( phonenumber, "08-08-1996", "3844724" );
+	phonedata->add_date_information( phonenumber, "08-08-1996", "3830656" );
 
-	// auto [getnumber, getdate, gettotal] = phonedata->get_phone_max_date(phonenumber);
+	phonedata->add_date_information( phonenumber, "12-12-1996", "3830656" );
+	phonedata->add_date_information( phonenumber, "12-12-1996", "3830656" );
 
-	// ASSERT_EQUAL(phonenumber, getnumber);
-	// ASSERT_EQUAL(getdate, "06-04-1993");
-	// ASSERT_EQUAL(gettotal, 3);
+	ASSERT_EQUAL(7, phonedata->get_total_send(phonenumber));
+
+	auto [getdate, gettotal, recepient] = phonedata->get_phone_max_date(phonenumber);
+
+	ASSERT_EQUAL("06-04-1993", getdate);
+	VAR_LOG(getdate);
+	ASSERT_EQUAL(3, gettotal );
+	VAR_LOG(gettotal);
+	ASSERT_EQUAL("3830656", recepient);
+	VAR_LOG(recepient);
+}
+
+TEST( phonenumber_date_send_countqueue_multiple_test ){
+	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
+	std::string phonenumber {"12345678900"};
+
+	phonedata->add_date_information( phonenumber, "06-04-1993", "3844724" );
+	phonedata->add_date_information( phonenumber, "06-04-1993", "3830656" );
+	phonedata->add_date_information( phonenumber, "06-04-1993", "3844724" );
+	phonedata->add_date_information( phonenumber, "06-04-1993", "3844724" );
+
+	phonedata->add_date_information( phonenumber, "08-08-1996", "3844724" );
+	phonedata->add_date_information( phonenumber, "08-08-1996", "3830656" );
+
+	phonedata->add_date_information( phonenumber, "12-12-1996", "3830656" );
+	phonedata->add_date_information( phonenumber, "12-12-1996", "3830656" );
+
+	ASSERT_EQUAL(8, phonedata->get_total_send(phonenumber));
+
+	{
+		auto [getdate, gettotal, recepient] = phonedata->get_phone_max_date(phonenumber);
+
+		ASSERT_EQUAL("06-04-1993", getdate);
+		VAR_LOG(getdate);
+		ASSERT_EQUAL(4, gettotal );
+		VAR_LOG(gettotal);
+		ASSERT_EQUAL("3844724", recepient);
+		VAR_LOG(recepient);
+	}
+
+	phonenumber =  "12222333300";
+
+	phonedata->add_date_information( phonenumber, "01-01-2002", "3830656" );
+
+	phonedata->add_date_information( phonenumber, "03-14-2002", "3830656" );
+	phonedata->add_date_information( phonenumber, "03-14-2002", "3844724" );
+
+	phonedata->add_date_information( phonenumber, "08-01-2003", "3844724" );
+	phonedata->add_date_information( phonenumber, "08-01-2003", "3844724" );
+	phonedata->add_date_information( phonenumber, "08-01-2003", "3830656" );
+
+	phonedata->add_date_information( phonenumber, "02-28-2000", "3844724" );
+	phonedata->add_date_information( phonenumber, "02-28-2000", "3844724" );
+	phonedata->add_date_information( phonenumber, "02-28-2000", "3830656" );
+	phonedata->add_date_information( phonenumber, "02-28-2000", "3844724" );
+
+	ASSERT_EQUAL(10, phonedata->get_total_send(phonenumber));
+
+	{
+		auto [getdate, gettotal, recepient] = phonedata->get_phone_max_date(phonenumber);
+
+		ASSERT_EQUAL("02-28-2000", getdate);
+		VAR_LOG(getdate);
+		ASSERT_EQUAL(4, gettotal );
+		VAR_LOG(gettotal);
+		ASSERT_EQUAL("3844724", recepient);
+		VAR_LOG(recepient);
+	}
+}
+
+TEST( phonenumber_vector_highest_element_check ){
+	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
+	std::vector<std::string> test_vector {"123", "456", "123", "456", "123", "789"};
+	std::string output;
+
+	phonedata->get_largest_element(test_vector, output);
+	ASSERT_EQUAL( "123", output );
 }
 
 TEST_MAIN()

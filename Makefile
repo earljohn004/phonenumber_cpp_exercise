@@ -38,14 +38,16 @@ CCVERSION = -std=c++17
 # compiling flags here
 CXXFLAGSS   =	-Wall\
    			-g\
+			-lpthread \
 			-I$(INCDIR)/ \
 			-I$(LIBDIR)/ \
 			-DDEBUG_TOOL \
-			-DTEST_MODE
+			# -DTEST_MODE
 
 
 # linking flags here
 LFLAGS   = -Wall\
+		   -lpthread
 
 # Compiler variables end
 # ---------------------
@@ -62,8 +64,7 @@ rm       = rm -f
 
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
-	@echo "$(CC) -o $@ $(OBJECTS) $(LFLAGS) $(LIBRARIES)"
-	@$(CC) -o $@ $(OBJECTS) $(LIBRARIES)
+	$(CC) -o $@ $(OBJECTS) $(LIBRARIES) $(LFLAGS)
 	@echo -e "\nBuild Success"
 
 $(OBJDIR)/%.o : %.cpp 
@@ -81,6 +82,8 @@ unittest:
 	$(eval TESTVAROBJ=$(subst test/,obj/,$(TESTVAR)))
 	$(eval TESTVAROBJ=$(subst cpp,o,$(TESTVAROBJ)))
 
+	$(eval DEPVAR=$(subst cpp,o,$(dependency)))
+	$(eval DEPVAR=$(subst src,obj,$(DEPVAR)))
 
 	@if $(CC) $(CCVERSION) $(CXXFLAGSS) -c -o $(OBJVAR) $(unit); then \
 		echo generating $(OBJVAR) completed; \
@@ -94,7 +97,16 @@ unittest:
 	   	echo [ERROR] create a unit test file.; exit 1;\
 	fi
 
-	$(CC) -o bin/$@ $(OBJVAR) $(TESTVAROBJ)
+ifdef $(dependency)
+	@if $(CC) $(CCVERSION) $(CXXFLAGSS) -c -o $(DEPVAR) $(dependency); then \
+		echo generating $(DEPVAR) completed; \
+		else \
+		echo File does not exist; exit 1;\
+	fi
+endif
+
+	@$(CC) -o bin/$@ $(OBJVAR) $(LFLAGS) $(TESTVAROBJ) $(DEPVAR)
+	@echo "\n\n---Starting unit test for $(unit)---\n"
 	@$(BINDIR)/$@
 
 .PHONEY: clean

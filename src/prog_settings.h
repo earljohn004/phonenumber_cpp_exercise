@@ -1,12 +1,14 @@
 #ifndef _PROG_SETTINGS_H
 #define _PROG_SETTINGS_H
 
+#include "common_defines.h"
+
 class prog_settings{
 	public:
 		prog_settings() = default;
 		~prog_settings() = default;
 
-		void open_config();
+		retcode open_config();
 
 	private:
 
