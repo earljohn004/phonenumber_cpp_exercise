@@ -1,14 +1,29 @@
 #include "worker.h"
+#include "prog_settings.h"
+#include "phonedata_model.h"
 #include "common_defines.h"
 #include "common_debug.h"
+#include "utility.h"
 
 #include <thread>
 #include <chrono>
 #include <fstream>
+#include <string>
+
+worker::worker(
+		std::shared_ptr<phonedata_model> phonedata, 
+		std::shared_ptr<prog_settings> settings,
+		std::string filename )
+{
+	phonedata_ = std::make_shared<phonedata_model>(*phonedata);
+	settings_ = std::make_shared<prog_settings>(*settings);
+	filename_ = std::move(filename);
+}
+
 
 void worker::input_producer_proc(){
 
-	std::string filename("input.csv");
+	std::string filename( filename_ );
 	std::ifstream file(filename);
 	std::string linestr;
 	std::unique_lock<decltype(mutex_)> lock(mutex_);
@@ -18,7 +33,7 @@ void worker::input_producer_proc(){
 		MESSAGE_LOG("reading input from file....");
 		input_queue_.push( linestr );
 
-		if( input_queue_.size() >= max_size_ ){
+		if( static_cast<int>(input_queue_.size()) >= max_size_ ){
 			is_active_ = true;
 			lock.unlock();
 			condition_var_.notify_one();
@@ -64,9 +79,11 @@ void worker::process_consumer_proc(){
 
 		while( !input_queue_.empty() ){
 			auto request = input_queue_.front();
-			VAR_LOG(request);
+
+			MESSAGE_LOG("extracting information...");
+			extract_information( request );
+
 			input_queue_.pop();
-			//TODO: add implementation for processing of data
 		}
 
 		is_active_= false;
@@ -74,6 +91,19 @@ void worker::process_consumer_proc(){
 		lock.unlock();
 		condition_var_.notify_one();
 	}
+
+	auto get_vector = settings_->get_output_settings();
+
+	// Write to file
+	std::ofstream outfile;
+	outfile.open("output.txt");
+
+	auto str = phonedata_->display_output( get_vector );
+	std::stringstream ss(str);
+	outfile << ss.rdbuf();
+	std::cout << ss.str();
+
+	MESSAGE_LOG("End of program");
 }
 
 void worker::start_thread(){
@@ -84,6 +114,69 @@ void worker::start_thread(){
 	process_thread.join();
 }
 
-void worker::extract_information(const std::string input){
+void worker::extract_information( const std::string input ){
+	std::unique_ptr<utility> util { std::make_unique<utility>() };
+
+	std::stringstream ss(input);
+	auto get_vector = settings_->get_input_settings();
+	retcode ret = retcode::ret_ng;
+
+	date_format time_stamp {};
+	date_format date_sent {};
+	date_format date_receive {};
+	std::string sender_phone {};
+	std::string receive_phone { "0" };
+
+	for( auto str : get_vector ) {
+
+		std::string tmp{};
+		std::getline(ss, tmp, settings_->get_delimeter() );
+		
+		if( str == "TimeStamp" ){
+			ret = util->extract_date_from_epoch( tmp, time_stamp );
+
+			if(ret == retcode::ret_ng){
+				ERROR_LOG("Time stamp error");
+			}else {/* Do nothing */}
+
+		}
+		else if( str == "DateSentTimeStamp"){
+
+			ret = util->extract_date_from_epoch( tmp, date_sent );
+
+			if(ret == retcode::ret_ng){
+				ERROR_LOG("Date sent error");
+			}else {/* Do nothing */}
+		}
+		else if( str == "DateReceivedTimeStamp" ){
+
+			ret = util->extract_date_from_epoch( tmp, date_receive );
+
+			if(ret == retcode::ret_ng){
+				ERROR_LOG("Date sent error");
+			}else {/* Do nothing */}
+		}
+		else if( str == "SenderPhoneNumber"){
+
+			ret = util->extract_phonenumber( tmp, sender_phone );
+
+			if(ret == retcode::ret_ng){
+				ERROR_LOG("SenderPhone error");
+			}else {/* Do nothing */}
+		}
+		else if( str == "RecepientPhoneNumber"){
+
+			ret = util->extract_phonenumber( tmp, receive_phone );
+
+			if(ret == retcode::ret_ok){
+				phonedata_->increment_phonenumber_receive( receive_phone );
+			}else {/* Do nothing */}
+
+		}else{
+			ERROR_LOG("does not exist");
+		}
+	}
+
+	phonedata_->add_date_information( sender_phone, date_sent.to_string(), receive_phone );
 }
 

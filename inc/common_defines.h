@@ -16,14 +16,14 @@ struct date_format
 {
 
 	friend std::ostream& operator<<(std::ostream &out, const date_format date){
-		return out <<  std::setw(2) << std::setfill('0') << std::to_string(date.month) << "-" 
+		return out <<  std::setw(2) << std::setfill('0') << std::to_string( date.month + 1) << "-" 
 			<< std::setw(2) << std::setfill('0') << std::to_string(date.day) << "-" 
 			<< std::to_string( date.year + 1900 ) << std::endl;
 	}
 
 	std::string to_string(){
 		std::stringstream ss;
-		ss << std::setw(2) << std::setfill('0') << std::to_string(month) << "-" 
+		ss << std::setw(2) << std::setfill('0') << std::to_string( month + 1 ) << "-" 
 			<< std::setw(2) << std::setfill('0') << std::to_string(day) << "-" 
 			<< std::to_string( year + 1900 );
 		return std::move(ss).str(); 

@@ -4,15 +4,15 @@
 	<input_setting>
 		<!-- Priority of input is based on included format -->
 		<included>
-			<TimeStamp/>
-			<DateSentTimeStamp/>
-			<DateReceivedTimeStamp/>
 			<SenderPhoneNumber/>
+			<DateSentTimeStamp/>
 			<RecepientPhoneNumber/>
 		</included>
 
 		<!-- To exclude certain fields, Put it inside <excluded> tag  -->
 		<excluded>
+			<TimeStamp/>
+			<DateReceivedTimeStamp/>
 		</excluded>
 
 	</input_setting>
@@ -23,13 +23,13 @@
 			<PhoneNumber/>
 			<TotalSent/>
 			<TotalReceived/>
-			<DayHighestSent/>
-			<NumberHighestSent/>
 		</included>
 
 		<!-- To exclude certain fields, Put it inside <excluded> tag  -->
 		<excluded>
 			<DayHighestDifference/>
+			<NumberHighestSent/>
+			<DayHighestSent/>
 		</excluded>
 	</output_setting>
 </config>

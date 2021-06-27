@@ -1,6 +1,9 @@
 #ifndef _H_WORKER_H_
 #define _H_WORKER_H_
 
+#include "phonedata_model.h"
+#include "prog_settings.h"
+
 #include <mutex>
 #include <thread>
 #include <queue>
@@ -11,6 +14,10 @@ class worker{
 
 	public: 
 		worker() = default;
+		worker( std::shared_ptr<phonedata_model> phonedata, 
+				std::shared_ptr<prog_settings> settings,
+				std::string filename );
+
 		~worker() = default;
 
 		void input_producer_proc();
@@ -18,7 +25,7 @@ class worker{
 		void start_thread();
 		
 	private:
-		void extract_information();
+		void extract_information(const std::string input);
 
 	private: 
 		std::mutex mutex_;
@@ -28,6 +35,11 @@ class worker{
 		bool is_active_ ;
 		int max_size_ = 10;
 		bool is_end_of_file_ = false;
+
+		std::shared_ptr<phonedata_model> phonedata_;
+		std::shared_ptr<prog_settings> settings_;
+
+		std::string filename_;
 
 };
 

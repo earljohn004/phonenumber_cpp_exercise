@@ -9,10 +9,18 @@ class prog_settings{
 		~prog_settings() = default;
 
 		retcode open_config();
+		retcode set_config_file( std::string file );
+
+		std::vector<std::string> get_input_settings();
+		std::vector<std::string> get_output_settings();
+		char get_delimeter();
 
 	private:
+		std::vector<std::string> settings_;
+		std::vector<std::string> output_;
+		std::string delimeter_;
+		std::string config_file_;
 
 };
-
 
 #endif//_PROG_SETTINGS_H

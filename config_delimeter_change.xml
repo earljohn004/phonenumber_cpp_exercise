@@ -1,0 +1,27 @@
+<config>
+	<delimeter_setting>:</delimeter_setting>
+	<input_setting>
+		<included>
+			<SenderPhoneNumber/>
+			<DateSentTimeStamp/>
+			<RecepientPhoneNumber/>
+		</included>
+		<excluded>
+			<TimeStamp/>
+			<DateReceivedTimeStamp/>
+		</excluded>
+	</input_setting>
+
+	<output_setting>
+		<included>
+			<PhoneNumber/>
+			<TotalSent/>
+			<TotalReceived/>
+		</included>
+		<excluded>
+			<DayHighestDifference/>
+			<NumberHighestSent/>
+			<DayHighestSent/>
+		</excluded>
+	</output_setting>
+</config>

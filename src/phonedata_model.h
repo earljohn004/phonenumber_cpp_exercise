@@ -25,6 +25,10 @@ class phonedata_model{
 		std::tuple<std::string, int, std::string> get_phone_max_date( const std::string phonenumber );
 		void add_date_information( const std::string phonenumber, const std::string date, const std::string recepient);
 
+		std::string display_output(const std::vector<std::string> setting);
+
+		std::vector<std::string> get_list_of_elements();
+
 	private:
 		void increment_receive(const std::string phonenumber);
 		void increment_send(const std::string phonenumber);

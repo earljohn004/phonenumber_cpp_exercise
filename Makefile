@@ -42,7 +42,7 @@ CXXFLAGSS   =	-Wall\
 			-I$(INCDIR)/ \
 			-I$(LIBDIR)/ \
 			-DDEBUG_TOOL \
-			# -DTEST_MODE
+			-DTEST_MODE
 
 
 # linking flags here

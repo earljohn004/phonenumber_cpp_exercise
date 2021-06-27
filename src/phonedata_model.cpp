@@ -25,6 +25,36 @@ void phonedata_model::increment_send(const std::string phonenumber){
 	++total_send_[phonenumber];
 }
 
+std::string phonedata_model::display_output(const std::vector<std::string> setting){
+
+	std::stringstream ss;
+
+	for( auto it = total_send_.begin();  it != total_send_.end(); it++){
+		auto key = it->first;
+
+		auto [ date_highest_send, count, highestnumber] = get_phone_max_date( key );
+
+		for( auto str : setting ){
+			if( str == "PhoneNumber" ){
+				ss <<  std::setw(10) << key;
+			}else if( str == "TotalSent"){
+				ss << std::setw(10) << total_send_[key];
+			}else if( str == "TotalReceived"){
+				ss << std::setw(10) << total_receive_ [key];
+			}else if( str == "DayHighestSent" ){
+				ss <<  std::setw(18) <<date_highest_send;
+			}else if( str == "NumberHighestSent"){
+				ss <<  std::setw(10) <<highestnumber;
+			}else{ /*Do nothing*/}
+
+			ss << ", ";
+		}
+
+		ss << std::endl;
+	}
+	return ss.str();
+}
+
 std::tuple<std::string, int, std::string> phonedata_model::get_phone_max_date( const std::string phonenumber ){
 	auto get_queue = &date_information_q_[phonenumber];
 
@@ -86,7 +116,9 @@ void phonedata_model::add_date_information( const std::string phonenumber, const
 	//Increment send phonenumber count
 	increment_send(phonenumber);
 
-	if( !date_information_q_.empty() ){
+	if( !date_information_q_.empty() && 
+		(date_information_q_.find(phonenumber)!=date_information_q_.end()))
+	{
 		auto get_queue = &date_information_q_[phonenumber];
 		auto get_info = &get_queue->front();
 
@@ -134,8 +166,6 @@ void phonedata_model::add_date_information( const std::string phonenumber, const
 
 		date_information_q_[phonenumber].push_front(info);
 	}
-
-	MESSAGE_LOG("DEBUG_HERE");
 }
 
 
