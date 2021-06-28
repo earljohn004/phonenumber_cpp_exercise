@@ -1,3 +1,14 @@
+/**
+ * utility unit test source - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains the unit tests for utility cpp
+ *
+ **/
+
 #include "common_debug.h"
 #include "common_defines.h"
 #include "utility.h"
@@ -11,6 +22,9 @@
 
 #ifdef TEST_MODE
 
+/** Test Description
+ *		Test the function to extract information of valid formats
+ */
 TEST( phonenumber_valid_format_test ){
 	std::unique_ptr<utility> util { std::make_unique<utility>() };
 	std::string test_output {};
@@ -29,6 +43,9 @@ TEST( phonenumber_valid_format_test ){
 	ASSERT_EQUAL( retcode::ret_ok, ret );
 }
 
+/** Test Description
+ *		Test the function to extract information of invalid formats
+ */
 TEST( phonenumber_invalid_format_test ){
 	std::unique_ptr<utility> util { std::make_unique<utility>() };
 	std::string test_output {};
@@ -44,6 +61,9 @@ TEST( phonenumber_invalid_format_test ){
 	ASSERT_EQUAL( retcode::ret_ng, ret );
 }
 
+/** Test Description
+ *		Test the function to extract information of valid date formats
+ */
 TEST( epoch_time_valid_test ){
 	std::unique_ptr<utility> util { std::make_unique<utility>() };
 	std::string test_output {};
@@ -53,16 +73,25 @@ TEST( epoch_time_valid_test ){
 	auto epoch = 949588105;
 	ret = util->extract_date_from_epoch( std::to_string(epoch), date );
 	ASSERT_EQUAL( retcode::ret_ok, ret );
-	ASSERT_EQUAL( "01-03-2000", date.to_string());
+	ASSERT_EQUAL( "02-03-2000", date.to_string());
 	std::cout << date;
 
 	epoch = 969988798;
 	ret = util->extract_date_from_epoch( std::to_string(epoch), date );
 	ASSERT_EQUAL( retcode::ret_ok, ret );
-	ASSERT_EQUAL( "08-26-2000", date.to_string());
+	ASSERT_EQUAL( "09-26-2000", date.to_string());
 	std::cout << date;
+
+	epoch = 946775278;
+	ret = util->extract_date_from_epoch( std::to_string(epoch), date );
+	ASSERT_EQUAL( retcode::ret_ok, ret );
+	ASSERT_EQUAL( "01-02-2000", date.to_string());
+	std::cout << "correct date: "<< date;
 }
 
+/** Test Description
+ *		Test the function to extract information of invalid date formats
+ */
 TEST( epoch_time_invalid_test ){
 	std::unique_ptr<utility> util { std::make_unique<utility>() };
 	std::string test_output {};

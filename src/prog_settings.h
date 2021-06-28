@@ -1,3 +1,14 @@
+/**
+ * prog settings header - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains helper functions
+ *
+ **/
+
 #ifndef _PROG_SETTINGS_H
 #define _PROG_SETTINGS_H
 

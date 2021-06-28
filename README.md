@@ -56,10 +56,12 @@ The environment uses Makefile. ```-DTEST_MODE``` will run the program in test mo
 * config.xml assumes that all settings inputted are valid. 
 * config.xml input_setting/includes and input.csv should match
 * Output file writer is only executed at the end. Future improvement can implement the File writer in a separate thread and output when a certain buffer is reached. 
+* I need to improve on my commenting style.
 
 ## Performance
-Running the command ```time bin/Solution big_file.csv``` with a 100,000 lines file shows to the below results.
+Running the command ```time bin/Solution big_file.csv``` with a 100,000 lines file shows the below results.
 ```
+System Unit Specs: Core i5-2400 , 8GB RAM
 input file:  big_file.csv
 number of lines: 100,000
 
@@ -68,10 +70,21 @@ user    2m2.594s
 sys     0m29.719s 
 
 ```
+Running the same command ```time bin/Solution big_file.csv``` with a 100,000 lines file shows the  below results on a different machine. 
+
+```
+System Unit Specs: Core i5-1035G4, 16GB RAM
+input file:  big_file.csv
+number of lines: 100,000
+
+real	0m36.786s
+user	0m34.859s
+sys		0m1.406s
+
+```
 
 ## About
-Solution is also uploaded in my github account
-Name: Earl John Abaquita
+Solution is also uploaded in my github account earljohn004
 https://github.com/earljohn004/phonenumber_cpp_exercise
 
 * Code and Folder structure uses  https://github.com/earljohn004/cppgenericmakefile

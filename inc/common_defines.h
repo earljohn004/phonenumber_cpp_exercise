@@ -1,3 +1,14 @@
+/**
+ * common_defines  header - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains common definitions used across the code
+ *
+ **/
+
 #ifndef _H_COMMON_DEFINES_H
 #define _H_COMMON_DEFINES_H
 
@@ -15,12 +26,17 @@ enum class retcode : int
 struct date_format 
 {
 
+	/** Overrides the ostream << operator
+	 *  date_format can automatically be used in std::cout converting information
+	 *  into mm-dd-yyyy format
+	 */
 	friend std::ostream& operator<<(std::ostream &out, const date_format date){
 		return out <<  std::setw(2) << std::setfill('0') << std::to_string( date.month + 1) << "-" 
 			<< std::setw(2) << std::setfill('0') << std::to_string(date.day) << "-" 
 			<< std::to_string( date.year + 1900 ) << std::endl;
 	}
 
+	// Converts the struct into mm-dd--yyyy format
 	std::string to_string(){
 		std::stringstream ss;
 		ss << std::setw(2) << std::setfill('0') << std::to_string( month + 1 ) << "-" 
@@ -37,7 +53,14 @@ struct date_format
 
 struct date_information{
 
+	/** Counts the number of occurence of a certain date which
+	 *  belongs to a sender phone number
+	 */
 	std::map< std::string, unsigned int> date_count;
+
+	/** Contains all the information of recipient  numbers
+	 *  all information is stored in the vector
+	 */
 	std::vector<std::string> phone_number_list;
 };
 

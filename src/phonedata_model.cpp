@@ -1,3 +1,14 @@
+/**
+ * phonedata_model source - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains the data information of the phone model 
+ *
+ **/
+
 #include "phonedata_model.h"
 #include "common_debug.h"
 
@@ -55,6 +66,11 @@ std::string phonedata_model::display_output(const std::vector<std::string> setti
 	return ss.str();
 }
 
+/** @Description This function will return 3 information, 
+ * @return std::string date : date with the most number of occurence
+ * @return int		   count: the number of dates registered
+ * @return std::string recipient : the recipient phone number with the highest number of occurence
+ */
 std::tuple<std::string, int, std::string> phonedata_model::get_phone_max_date( const std::string phonenumber ){
 	auto get_queue = &date_information_q_[phonenumber];
 
@@ -167,5 +183,3 @@ void phonedata_model::add_date_information( const std::string phonenumber, const
 		date_information_q_[phonenumber].push_front(info);
 	}
 }
-
-

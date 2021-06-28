@@ -1,3 +1,15 @@
+/**
+ * worker source- version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains multi-threading implementation for file reading and 
+ * data processing
+ *
+ **/
+
 #include "worker.h"
 #include "prog_settings.h"
 #include "phonedata_model.h"
@@ -98,9 +110,19 @@ void worker::process_consumer_proc(){
 	std::ofstream outfile;
 	outfile.open("output.txt");
 
+	
+	// headerss will print the header to stringstream
+	std::stringstream headerss;
+	for( auto header: get_vector ){
+		headerss << std::setw(10) << header <<  ", ";
+	}
+	headerss << std::endl;
+
+	// get data to be outputted from phonedata_
 	auto str = phonedata_->display_output( get_vector );
 	std::stringstream ss(str);
-	outfile << ss.rdbuf();
+
+	outfile << headerss.rdbuf() << ss.rdbuf();
 	std::cout << ss.str();
 
 	MESSAGE_LOG("End of program");
@@ -179,4 +201,3 @@ void worker::extract_information( const std::string input ){
 
 	phonedata_->add_date_information( sender_phone, date_sent.to_string(), receive_phone );
 }
-

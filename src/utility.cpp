@@ -1,3 +1,14 @@
+/**
+ * utility source - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains helper functions
+ *
+ **/
+
 #include "utility.h"
 #include "common_defines.h"
 #include "common_debug.h"

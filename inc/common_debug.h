@@ -1,3 +1,14 @@
+/**
+ * common_debug  header - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains common debugging macros
+ *
+ **/
+
 #ifndef _INC_COMMON_DEBUG_H_
 #define _INC_COMMON_DEBUG_H_
 

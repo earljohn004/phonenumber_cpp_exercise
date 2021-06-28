@@ -1,3 +1,14 @@
+/**
+ * phonedata_model source - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains the main function
+ *
+ **/
+
 #include "common_debug.h"
 #include "worker.h"
 #include "phonedata_model.h"
@@ -37,6 +48,11 @@ int main( int argc, char *argv[] ){
 	return 0;
 }
 #endif
+
+/** including -DTEST_MODE in Makefile CXXFlags will result to 
+ * below codes being run. Refer to the unit_test_framework documentation how to run
+ * specific tests
+ */
 #ifdef TEST_MODE
 
 TEST( config_input_and_output_rearrange ){

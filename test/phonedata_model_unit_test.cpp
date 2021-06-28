@@ -1,3 +1,14 @@
+/**
+ * phonedata_model unit test source - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains the unit tests for phonedata_model cpp
+ *
+ **/
+
 #include "common_debug.h"
 #include "common_defines.h"
 #include "phonedata_model.h"
@@ -13,7 +24,10 @@
 
 #ifdef TEST_MODE
 
-
+/** Test Description
+ *		Test the function to increase the phonenumber_send count of each 
+ *		phone numbers receive with the same format
+ */
 TEST( phonenumber_send_increase ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 
@@ -33,6 +47,10 @@ TEST( phonenumber_send_increase ){
 	ASSERT_EQUAL(10, total);
 }
 
+/** Test Description
+ *		Test the function to increase the phonenumber_send count of each 
+ *		phone numbers receive with different formats
+ */
 TEST( phonenumber_send_increase_diff_format ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 	std::unique_ptr<utility> util { std::make_unique<utility>() };
@@ -91,6 +109,10 @@ TEST( phonenumber_send_increase_diff_format ){
 	ASSERT_EQUAL(4, total);
 }
 
+/** Test Description
+ *		Test the function to increase the phonenumber_receive count of each 
+ *		phone numbers receive with same format
+ */
 TEST( phonenumber_receive_increase ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 	std::string test_output {};
@@ -111,6 +133,10 @@ TEST( phonenumber_receive_increase ){
 	ASSERT_EQUAL(10, total);
 }
 
+/** Test Description
+ *		Test the function to increase the phonenumber_receive count of each 
+ *		phone numbers receive with different formats
+ */
 TEST( phonenumber_receive_increase_diff_format ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 	std::unique_ptr<utility> util { std::make_unique<utility>() };
@@ -169,6 +195,10 @@ TEST( phonenumber_receive_increase_diff_format ){
 	ASSERT_EQUAL(4, total);
 }
 
+/** Test Description
+ *		Test the function to increase the phonenumber_send count of each 
+ *		phone numbers send with different numbers
+ */
 TEST( phonenumber_multiple_send_increase ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 
@@ -190,6 +220,10 @@ TEST( phonenumber_multiple_send_increase ){
 	ASSERT_EQUAL(0, total);
 }
 
+/** Test Description
+ *		Test the function to increase the phonenumber_receive count of each 
+ *		phone numbers receive with different numbers
+ */
 TEST( phonenumber_multiple_receive_increase ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 
@@ -211,6 +245,11 @@ TEST( phonenumber_multiple_receive_increase ){
 	ASSERT_EQUAL(0, total);
 }
 
+/** Test Description
+ *		Test the function to get the correct information of the phone number
+ *		with the highest recorded date and highest recorded recipient numbers
+ *		with a single phone number
+ */
 TEST( phonenumber_date_send_countqueue_test ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 	std::string phonenumber {"12345678900"};
@@ -237,6 +276,11 @@ TEST( phonenumber_date_send_countqueue_test ){
 	VAR_LOG(recepient);
 }
 
+/** Test Description
+ *		Test the function to get the correct information of the phone number
+ *		with the highest recorded date and highest recorded recipient numbers
+ *		with multiple phonenumbers and varying dates
+ */
 TEST( phonenumber_date_send_countqueue_multiple_test ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 	std::string phonenumber {"12345678900"};
@@ -295,6 +339,10 @@ TEST( phonenumber_date_send_countqueue_multiple_test ){
 	}
 }
 
+/** Test Description
+ *		Test the function to get the correct information of the phone number
+ *		with the highest recorded recipient number
+ */
 TEST( phonenumber_vector_highest_element_check ){
 	std::unique_ptr<phonedata_model> phonedata { std::make_unique<phonedata_model>() };
 	std::vector<std::string> test_vector {"123", "456", "123", "456", "123", "789"};

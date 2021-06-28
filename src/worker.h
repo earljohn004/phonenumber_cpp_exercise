@@ -1,3 +1,15 @@
+/**
+ * worker header - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains multi-threading implementation for file reading and 
+ * data processing
+ *
+ **/
+
 #ifndef _H_WORKER_H_
 #define _H_WORKER_H_
 

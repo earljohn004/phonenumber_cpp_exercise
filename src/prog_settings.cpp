@@ -1,3 +1,14 @@
+/**
+ * prog settings source - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains helper functions
+ *
+ **/
+
 #include "prog_settings.h"
 #include "pugixml.hpp"
 #include "common_debug.h"
@@ -68,3 +79,7 @@ retcode prog_settings::open_config(){
 	return ret;
 
 }
+/**
+	This software is based on pugixml library (http://pugixml.org). 
+	pugixml is Copyright (C) 2006-2018 Arseny Kapoulkine.
+**/

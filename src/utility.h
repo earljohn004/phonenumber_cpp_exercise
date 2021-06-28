@@ -1,3 +1,14 @@
+/**
+ * utility header - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains helper functions
+ *
+ **/
+
 #ifndef _H_UTILITY_H_
 #define _H_UTILITY_H_
 

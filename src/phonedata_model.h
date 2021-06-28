@@ -1,3 +1,14 @@
+/**
+ * phonedata_model header - version 1.00
+ * --------------------------------------------------------
+ * Created June 2021,
+ * @author Earl John Abaquita (earl.abaquita@outlook.com)
+ *
+ * Description:
+ * contains the data information of the phone model 
+ *
+ **/
+
 #ifndef _H_PHONEDATAMODEL_H_
 #define _H_PHONEDATAMODEL_H_
 
@@ -24,9 +35,7 @@ class phonedata_model{
 		void get_largest_element( const std::vector<std::string> list, std::string & output );
 		std::tuple<std::string, int, std::string> get_phone_max_date( const std::string phonenumber );
 		void add_date_information( const std::string phonenumber, const std::string date, const std::string recepient);
-
 		std::string display_output(const std::vector<std::string> setting);
-
 		std::vector<std::string> get_list_of_elements();
 
 	private:
