@@ -48,7 +48,7 @@ The environment uses Makefile. ```-DTEST_MODE``` will run the program in test mo
 * Unit test files are located in test/ directory. Unit test file naming convention uses ```<cpp_file_name>_unit_test.cpp```
 * ```make unittest unit=src/utility.cpp``` will run the unit testing for utility.cpp and its corresponding unit test file in test/utility_unit_test.cpp
 * ```make unittest unit=src/phonedata_model.cpp dependency=src/utility.cpp``` will run the unit testing for phonedata_model.cpp with its corresponding unit test file in test/phonedata_model_unit_test.cpp and dependency in src/utility.cpp
-* in order to run the program in production mode. comment out ```-DTEST_MODE``` and ```-DDEBUG_TOOL``` in Makefile
+* in order to run the program in production mode. comment ```-DTEST_MODE``` and ```-DDEBUG_TOOL``` in Makefile
 * ```bin/Solution <input_file>``` 1 parameter can be added as a parameter of the program. If no input parameter is inputted, the default ```input.csv``` will be used. 
 
 ## Lacking implementation and Future improvements
@@ -79,7 +79,7 @@ number of lines: 100,000
 
 real	0m36.786s
 user	0m34.859s
-sys		0m1.406s
+sys	0m1.406s
 
 ```
 
