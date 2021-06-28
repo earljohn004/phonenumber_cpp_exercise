@@ -19,7 +19,7 @@
 # ------------------------------------------------
 
 # project name (generate executable with this name)
-TARGET   = TestApplication
+TARGET   = Solution
 
 # change these to set the proper directories where each files shoould be
 SRCDIR   = src
@@ -41,8 +41,8 @@ CXXFLAGSS   =	-Wall\
 			-lpthread \
 			-I$(INCDIR)/ \
 			-I$(LIBDIR)/ \
-			-DDEBUG_TOOL \
-			-DTEST_MODE
+			# -DDEBUG_TOOL \
+			# -DTEST_MODE
 
 
 # linking flags here
