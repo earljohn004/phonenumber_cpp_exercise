@@ -62,6 +62,13 @@ struct date_information{
 	 *  all information is stored in the vector
 	 */
 	std::vector<std::string> phone_number_list;
+
+	/** New implementation,
+	 *  contains the recipient phone number with the highest date difference
+	 *  from being sent and received.
+	 */
+	std::string recipient_phone;
+	int date_diff_count;
 };
 
 #endif //_H_COMMON_DEFINES_H

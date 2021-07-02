@@ -37,6 +37,9 @@ class phonedata_model{
 		void add_date_information( const std::string phonenumber, const std::string date, const std::string recepient);
 		std::string display_output(const std::vector<std::string> setting);
 		std::vector<std::string> get_list_of_elements();
+#if 0
+		void compute_date_difference( const date_format date_sent, const date_format date_receive );
+#endif
 
 	private:
 		void increment_receive(const std::string phonenumber);

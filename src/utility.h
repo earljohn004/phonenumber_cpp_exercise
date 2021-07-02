@@ -24,6 +24,7 @@ class utility{
 
 		retcode extract_phonenumber( const std::string phonenumber, std::string &output );
 		retcode extract_date_from_epoch( const std::string epoch_time, date_format &date ); 
+		int compute_date_difference( const date_format date_sent, const date_format date_receive );
 
 	private:
 };

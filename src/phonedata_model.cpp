@@ -183,3 +183,16 @@ void phonedata_model::add_date_information( const std::string phonenumber, const
 		date_information_q_[phonenumber].push_front(info);
 	}
 }
+
+#if 0
+/** New implementation for the lacking function
+ * determine the difference between send and receive date
+ */
+void phonedata_model::compute_date_difference( const date_format date_sent, const date_format date_receive ){
+
+	auto year_diff = date_receive.year - date_sent.year;
+	auto month_diff = date_receive.month - date_sent.month;
+	auto day_diff = date_receive.day - date_sent.day;
+
+}
+#endif

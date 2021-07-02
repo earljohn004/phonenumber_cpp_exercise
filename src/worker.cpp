@@ -198,6 +198,11 @@ void worker::extract_information( const std::string input ){
 			ERROR_LOG("does not exist");
 		}
 	}
+	//TODO: add information to determine largest date difference
+#if 0
+	auto diff = phonedata_->compute_date_difference( date_sent, date_receive );
+#endif
+	
 
 	phonedata_->add_date_information( sender_phone, date_sent.to_string(), receive_phone );
 }

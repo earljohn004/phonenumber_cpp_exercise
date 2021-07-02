@@ -62,3 +62,27 @@ retcode utility::extract_date_from_epoch( const std::string epoch_time, date_for
 
 	return ret;
 }
+
+/** New implementation for the lacking function
+ * determine the difference between send and receive date
+ */
+int utility::compute_date_difference( const date_format date_sent, const date_format date_receive ){
+
+	int total_difference { 0 };
+
+	auto year_diff = date_receive.year - date_sent.year;
+	auto month_diff = date_receive.month - date_sent.month;
+	auto day_diff = date_receive.day - date_sent.day;
+
+	// Compute the number of days in a year diff
+	total_difference +=  ( year_diff * 365 );
+
+	// Compute the number of days in a month diff
+	// Round down to 30 days in a month
+	total_difference += ( month_diff * 30 );
+
+	total_difference += day_diff ;
+
+
+	return total_difference;
+}

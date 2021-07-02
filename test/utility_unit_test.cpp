@@ -112,6 +112,29 @@ TEST( epoch_time_invalid_test ){
 	ASSERT_EQUAL( retcode::ret_ng, ret );
 }
 
+/** Test Description
+ *		Test the date differnce function
+ */
+TEST( date_diff ){
+	std::unique_ptr<utility> util { std::make_unique<utility>() };
+	std::string test_output {};
+	retcode ret { retcode::ret_ng };
+
+	date_format date {};
+
+	ret = util->extract_date_from_epoch( "abcdefghilmnop", date );
+	ASSERT_EQUAL( retcode::ret_ng, ret );
+
+	ret = util->extract_date_from_epoch( "bbccdef1345", date );
+	ASSERT_EQUAL( retcode::ret_ng, ret );
+
+	ret = util->extract_date_from_epoch( "0(abcde)129-234-12(876)3-43", date );
+	ASSERT_EQUAL( retcode::ret_ng, ret );
+
+	ret = util->extract_date_from_epoch( "-+-----()", date );
+	ASSERT_EQUAL( retcode::ret_ng, ret );
+}
+
 TEST_MAIN()
 
 #endif
